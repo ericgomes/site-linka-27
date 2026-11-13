@@ -16,10 +16,13 @@ const ICON = {
   ai: '<svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2Zm6 12 .9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9L18 14Z"/></svg>',
 };
 
-export function render(lang, { review = false } = {}) {
+export function render(lang, { review = false, basePath = '', preview = false } = {}) {
+  const BP = basePath; // prefixo do subcaminho (ex.: /site-linka-27 no GitHub Pages)
+  // Páginas que existem só no servidor atual (blog, privacidade): na prévia, apontam para o site no ar.
+  const legacy = (u) => (preview ? SITE.origin + u : u);
   const t = (o) => (o == null ? '' : typeof o === 'string' ? o : (o[lang] ?? o.pt));
   const L = LANG_META[lang];
-  const base = review ? '/review' : '';
+  const base = BP + (review ? '/review' : '');
   const home = base + L.path;
   const visible = (x) => review || !x.review;
   const note = (txt) => (review && txt ? `<p class="rv-note"><strong>Nota interna:</strong> ${esc(txt)}</p>` : '');
@@ -40,7 +43,7 @@ export function render(lang, { review = false } = {}) {
 
   const header = `
 <a class="skip" href="#conteudo">${esc(t(T.ui.skip))}</a>
-${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas internas, conteúdos pendentes e estruturas sem dados. Não publicar. A versão pública está em <a href="${L.path}">${L.path}</a>.</div>` : ''}
+${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas internas, conteúdos pendentes e estruturas sem dados. Não publicar. A versão pública está em <a href="${BP}${L.path}">${BP}${L.path}</a>.</div>` : ''}
 <header class="site-header" id="topo">
   <div class="wrap header-inner">
     <a class="logo" href="${home}#topo" aria-label="Linka — ${esc(t(T.ui.backToTop))}">
@@ -256,7 +259,7 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
     const c = P[key];
     return `
       <article class="person" id="${key}" aria-labelledby="${key}-name">
-        <img class="person-photo" src="${p.photo}" alt="${esc(p.name)}" width="160" height="160" loading="lazy">
+        <img class="person-photo" src="${BP}${p.photo}" alt="${esc(p.name)}" width="160" height="160" loading="lazy">
         <div class="person-body">
           <h3 id="${key}-name">${esc(p.name)}</h3>
           <p class="person-role">${esc(t(c.role))}</p>
@@ -307,7 +310,7 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
       <article class="cred cred-wide">
         <h3>${esc(t(CR.premier.title))}</h3>
         <p>${esc(t(CR.premier.text))}</p>
-        <ul class="badges">${years.map((y) => `<li><img src="/assets/img/badges/premier-${y}.jpg" alt="Google Premier Partner ${y}" width="96" height="96" loading="lazy"><span>${y}</span></li>`).join('')}</ul>
+        <ul class="badges">${years.map((y) => `<li><img src="${BP}/assets/img/badges/premier-${y}.jpg" alt="Google Premier Partner ${y}" width="96" height="96" loading="lazy"><span>${y}</span></li>`).join('')}</ul>
         <p class="cred-links">
           ${extLink('https://www.google.com/partners/agency?id=8434993335', `${esc(t(CR.premier.verify))} ${ICON.ext}`, 'link-arrow')}
           ${extLink('https://partnersdirectory.withgoogle.com/intl/pt-BR/?certs=search&certs=display&certs=video&certs=shopping&certs=apps&regions=BR&premier=true', `${esc(t(CR.premier.directory))} ${ICON.ext}`, 'link-arrow')}
@@ -316,13 +319,13 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
       <article class="cred">
         <h3>${esc(t(CR.ads.title))}</h3>
         <p>${esc(t(CR.ads.text))}</p>
-        <ul class="badges badges-sm">${adsBadges.map(([k, n]) => `<li><button type="button" class="zoom" data-full="/assets/img/badges/ads-${k}-lg.jpg" data-caption="${esc(n)}" aria-label="${esc(t(T.ui.enlarge))}: ${esc(n)}"><img src="/assets/img/badges/ads-${k}.jpg" alt="${esc(n)} — Certified" width="72" height="72" loading="lazy"></button></li>`).join('')}</ul>
+        <ul class="badges badges-sm">${adsBadges.map(([k, n]) => `<li><button type="button" class="zoom" data-full="${BP}/assets/img/badges/ads-${k}-lg.jpg" data-caption="${esc(n)}" aria-label="${esc(t(T.ui.enlarge))}: ${esc(n)}"><img src="${BP}/assets/img/badges/ads-${k}.jpg" alt="${esc(n)} — Certified" width="72" height="72" loading="lazy"></button></li>`).join('')}</ul>
       </article>
       <article class="cred">
         <h3>${esc(t(CR.linkedin.title))}</h3>
         <p>${esc(t(CR.linkedin.text))}</p>
         <ul class="cert-list">${CR.linkedin.items.map((c) => `<li>
-          <button type="button" class="zoom cert-thumb" data-full="/assets/img/certs/${c.img}.jpg" data-caption="${esc(t(c.name))}" aria-label="${esc(t(T.ui.enlarge))}: ${esc(t(c.name))}"><img src="/assets/img/certs/${c.img}-thumb.jpg" alt="" width="96" height="74" loading="lazy"></button>
+          <button type="button" class="zoom cert-thumb" data-full="${BP}/assets/img/certs/${c.img}.jpg" data-caption="${esc(t(c.name))}" aria-label="${esc(t(T.ui.enlarge))}: ${esc(t(c.name))}"><img src="${BP}/assets/img/certs/${c.img}-thumb.jpg" alt="" width="96" height="74" loading="lazy"></button>
           <span class="cert-name">${esc(t(c.name))}</span>
           ${extLink(c.verify, `${esc(t(T.ui.verify))} ${ICON.ext}`, 'cert-verify')}
         </li>`).join('')}</ul>
@@ -342,12 +345,12 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
         <p class="eyebrow">${esc(t(T.insights.eyebrow))}</p>
         <h2 id="insights-title">${esc(t(T.insights.title))}</h2>
       </div>
-      <a class="link-arrow" href="/blog">${esc(t(T.ui.allArticles))} ${ICON.arrow}</a>
+      <a class="link-arrow" href="${legacy('/blog')}">${esc(t(T.ui.allArticles))} ${ICON.arrow}</a>
     </header>
     <ul class="articles">
       ${ARTICLES.map((a) => `<li class="article">
         <p class="article-meta"><time datetime="${a.date}">${esc(fmtDate(a.date))}</time>${lang !== 'pt' ? ` · <span lang="pt-BR">${esc(t(T.ui.ptOnly))}</span>` : ''}</p>
-        <h3><a href="${a.url}" lang="pt-BR">${esc(a.title)}</a></h3>
+        <h3><a href="${legacy(a.url)}" lang="pt-BR">${esc(a.title)}</a></h3>
         <p lang="pt-BR">${esc(a.text)}</p>
       </li>`).join('')}
     </ul>
@@ -360,7 +363,7 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
   const contactCard = (key, role) => {
     const p = PEOPLE[key];
     return `<article class="contact-card">
-      <img src="${p.photo}" alt="" width="64" height="64" loading="lazy">
+      <img src="${BP}${p.photo}" alt="" width="64" height="64" loading="lazy">
       <div>
         <h3>${esc(p.name)}</h3>
         <p class="person-role">${esc(t(role))}</p>
@@ -399,7 +402,7 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
     <p><span class="wordmark wordmark-sm">l<span class="l-i">i</span>nk<span class="l-a">a</span></span></p>
     <p>© ${new Date().getFullYear()} Linka · Eric Gomes &amp; Marcelo Caricati</p>
     <ul class="footer-links">
-      <li><a href="/privacidade">${esc(t(T.ui.privacy))}</a></li>
+      <li><a href="${legacy('/privacidade')}">${esc(t(T.ui.privacy))}</a></li>
       <li><a href="${home}#topo">${esc(t(T.ui.backToTop))}</a></li>
     </ul>
   </div>
@@ -407,7 +410,7 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
 <div class="wa-float" data-wa>
   <div class="wa-menu" id="wa-menu" hidden>
     <p class="wa-menu-title">${esc(t(T.ui.whatsappWith))}</p>
-    ${['eric', 'marcelo'].map((k) => extLink(PEOPLE[k].whatsapp, `<img src="${PEOPLE[k].photo}" alt="" width="32" height="32"> ${esc(PEOPLE[k].name)}`, 'wa-opt')).join('')}
+    ${['eric', 'marcelo'].map((k) => extLink(PEOPLE[k].whatsapp, `<img src="${BP}${PEOPLE[k].photo}" alt="" width="32" height="32"> ${esc(PEOPLE[k].name)}`, 'wa-opt')).join('')}
   </div>
   <button class="wa-btn" type="button" aria-expanded="false" aria-controls="wa-menu" aria-label="${esc(t(T.ui.whatsapp))}">${ICON.wa}</button>
 </div>
@@ -437,7 +440,7 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(t(T.meta.title))}</title>
   <meta name="description" content="${esc(t(T.meta.description))}">
-  ${review ? '<meta name="robots" content="noindex, nofollow">' : `<link rel="canonical" href="${canonical}">\n  ${alternates}`}
+  ${review || preview ? '<meta name="robots" content="noindex, nofollow">' : `<link rel="canonical" href="${canonical}">\n  ${alternates}`}
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Linka">
   <meta property="og:title" content="${esc(t(T.meta.title))}">
@@ -446,15 +449,15 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
   <meta property="og:image" content="${SITE.origin}/og-image.jpg">
   <meta property="og:locale" content="${L.og}">
   <meta name="theme-color" content="#7C3AED">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="${BP}/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap">
-  <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="${BP}/assets/css/site.css">
   <script>try{var s=localStorage.getItem('linka-theme');var d=s?s==='dark':matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=d?'dark':'light'}catch(e){}</script>
   <script type="application/ld+json">${JSON.stringify(ld)}</script>
-  ${review ? '' : `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${SITE.gtm}');</script>`}
-  <script src="/assets/js/site.js" defer></script>
+  ${review || preview ? '' : `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${SITE.gtm}');</script>`}
+  <script src="${BP}/assets/js/site.js" defer></script>
 </head>
 <body${review ? ' class="is-review"' : ''}>`;
 
