@@ -71,31 +71,46 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
   const H = T.hero;
   const stages = t(H.stages);
   const touch = t(H.touch);
+  // Ícones dos pontos de contato da jornada (mesma ordem de H.touch)
+  const TOUCH_ICONS = [
+    '<path d="M10.5 18a7.5 7.5 0 1 1 5.3-2.2L21 21"/><path d="M10.5 7v7M7 10.5h7" opacity=".55"/>',
+    '<path d="M4 19c8 0 14-5 15-14-9 1-14 7-14 15"/><path d="M4 19l7-7"/>',
+    '<path d="M4 10v4h3l6 4V6L7 10H4z"/><path d="M17 9a4 4 0 0 1 0 6"/>',
+    '<path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v4h-4"/>',
+    '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  ];
+  const ico = (i) => `<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${TOUCH_ICONS[i]}</g></svg>`;
+  // "Animated beam": canais → núcleo de mensuração → conversão. Linhas desenhadas por JS (site.js).
   const diagram = `
-<figure class="journey" aria-labelledby="journey-title">
-  <figcaption>
-    <span class="journey-title" id="journey-title">${esc(t(H.diagramTitle))}</span>
+<figure class="beam" aria-labelledby="journey-title">
+  <figcaption class="beam-cap">
+    <span class="beam-title" id="journey-title">${esc(t(H.diagramTitle))}</span>
     <span class="sr-only">${esc(t(H.diagramDesc))}</span>
   </figcaption>
-  <ol class="journey-stages" aria-hidden="true">
-    ${stages.map((s, i) => `<li><span class="stage-n">${i + 1}</span>${esc(s)}</li>`).join('')}
-  </ol>
-  <div class="journey-tracks" aria-hidden="true">
-    ${touch.map((label, i) => {
-      // início e fim de cada contato ao longo da jornada (%), ilustrativo
-      const [s, e] = [[0, 58], [10, 70], [22, 82], [46, 90], [70, 100]][i] || [0, 100];
-      return `<div class="track t${i + 1}${e === 100 ? ' t-end' : ''}" style="--s:${s}%;--e:${e}%"><span>${esc(label)}</span></div>`;
-    }).join('\n    ')}
+  <div class="beam-stage" data-beam aria-hidden="true">
+    <svg class="beam-svg"></svg>
+    <div class="beam-col beam-in">
+      <p class="beam-col-h">${esc(stages[0])} · ${esc(stages[1])}</p>
+      ${touch.slice(0, -1).map((label, i) => `<div class="beam-node" data-beam-from>${ico(i)}<span>${esc(label)}</span></div>`).join('')}
+    </div>
+    <div class="beam-col beam-mid">
+      <div class="beam-hub" data-beam-hub><img src="${BP}/assets/img/logo-linka.svg" alt="" width="44" height="44"></div>
+      <p class="beam-hub-label">${esc(t(H.hub))}</p>
+    </div>
+    <div class="beam-col beam-out">
+      <p class="beam-col-h">${esc(stages[2])}</p>
+      <div class="beam-node beam-node-out" data-beam-to>${ico(touch.length - 1)}<span>${esc(touch[touch.length - 1])}</span></div>
+    </div>
   </div>
-  <p class="journey-foot" aria-hidden="true"><span class="dot"></span>${esc(t(H.lastClick))}</p>
+  <p class="beam-foot" aria-hidden="true"><span class="dot"></span>${esc(t(H.lastClick))}</p>
 </figure>`;
 
   const hero = `
 <section class="hero" id="inicio" aria-labelledby="hero-title">
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow">${esc(t(H.eyebrow))}</p>
-      <h1 id="hero-title">${t(H.title).split(/(?<=\.)\s+/).map((f) => `<span class="h1-line">${esc(f)}</span>`).join(" ")}</h1>
+      <p class="hero-badge"><span class="pulse" aria-hidden="true"></span>${esc(t(H.eyebrow))}</p>
+      <h1 id="hero-title">${t(H.title).split(/(?<=\.)\s+/).map((f, i) => `<span class="h1-line${i === 1 ? ' h1-grad' : ''}">${esc(f)}</span>`).join(' ')}</h1>
       <p class="lead">${esc(t(H.lead))}</p>
       <p class="hero-support">${esc(t(H.support))}</p>
       <div class="cta-row">
@@ -125,6 +140,34 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
 
   // ---------- services ----------
   const S = T.services;
+  const svgI = (d) => `<svg viewBox="0 0 24 24" width="22" height="22"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</g></svg>`;
+  const SERVICE_ICONS = {
+    'seo-geo': svgI('<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/><path d="M10.5 7.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z" fill="currentColor" stroke="none"/>'),
+    'midias-pagas': svgI('<path d="M3 11v3a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 9a4 4 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/>'),
+    'dados-mensuracao': svgI('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'),
+  };
+  // Demonstração interativa de modelos de atribuição (percentuais = definição do modelo)
+  const A = S.attr;
+  const attrTouches = [touch[0], touch[2], touch[3]];
+  const defModel = A.models.find((m) => m.id === A.defaultModel) || A.models[0];
+  const attrDemo = `
+        <figure class="attr" data-attr aria-labelledby="attr-title">
+          <figcaption>
+            <span class="attr-title" id="attr-title">${esc(t(A.title))}</span>
+            <span class="attr-cap">${esc(t(A.caption))}</span>
+          </figcaption>
+          <div class="attr-models" role="group" aria-label="${esc(t(A.modelsLabel))}">
+            ${A.models.map((m) => `<button type="button" class="attr-model" data-credit="${m.credit.join(',')}" aria-pressed="${m.id === defModel.id}">${esc(t(m.name))}</button>`).join('')}
+          </div>
+          <ol class="attr-path">
+            ${attrTouches.map((label, i) => `<li class="attr-touch">
+              <span class="attr-touch-label"><span class="attr-step" aria-hidden="true">${i + 1}</span>${esc(label)}</span>
+              <span class="attr-bar" aria-hidden="true"><span style="width:${defModel.credit[i]}%"></span></span>
+              <span class="attr-val" data-attr-val>${defModel.credit[i]}%</span>
+            </li>`).join('')}
+            <li class="attr-touch attr-conv"><span class="attr-touch-label"><span class="attr-step" aria-hidden="true">${ico(4)}</span>${esc(touch[4])}</span></li>
+          </ol>
+        </figure>`;
   const services = `
 <section class="section" id="servicos" aria-labelledby="servicos-title">
   <div class="wrap">
@@ -133,10 +176,11 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
       <h2 id="servicos-title">${esc(t(S.title))}</h2>
       <p class="lead">${esc(t(S.lead))}</p>
     </header>
-    <div class="services">
+    <div class="services bento">
       ${S.items.map((it, i) => `
-      <article class="service" id="${it.id}" aria-labelledby="${it.id}-t">
-        <span class="service-n" aria-hidden="true">0${i + 1}</span>
+      <article class="service glow-card${it.id === 'dados-mensuracao' ? ' service-wide' : ''}" id="${it.id}" aria-labelledby="${it.id}-t">
+        <div class="service-main">
+        <div class="service-top"><span class="service-icon" aria-hidden="true">${SERVICE_ICONS[it.id] || ''}</span><span class="service-n" aria-hidden="true">0${i + 1}</span></div>
         <h3 id="${it.id}-t">${esc(t(it.title))}</h3>
         <p>${esc(t(it.summary))}</p>
         <div class="service-ai">
@@ -150,6 +194,8 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
             <ul class="chips">${it.channels.filter(visible).map((c) => `<li${c.review ? ' class="rv-item"' : ''}>${esc(c.name)}</li>`).join('')}</ul>${note(it.channelsNote)}` : ''}
             ${it.disclaimer ? `<p class="fine">${esc(t(it.disclaimer))}</p>` : ''}
         </div>
+        </div>
+        ${it.id === 'dados-mensuracao' ? attrDemo : ''}
       </article>`).join('')}
     </div>
     <div class="connect">
@@ -207,12 +253,28 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
   const W = T.work;
   const LB = T.lab;
   const labItems = LAB.filter((x) => review || x.public !== false);
+  const LAB_ICONS = {
+    atribuicao: '<circle cx="5" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 6c6 0 6 6 10 6M7 18c6 0 6-6 10-6"/>',
+    orcamento: '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M16 12.5h2M3 10h18"/>',
+    seo: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/><path d="M10.5 7.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z" fill="currentColor" stroke="none"/>',
+    conectores: '<path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-10 0V7zM12 16v5"/>',
+    'mcp-ga4': '<path d="M4 5h16v11H9l-5 4V5z"/><path d="M9 12V9M12 12V8M15 12v-2"/>',
+    cidades: '<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+    'plano-midia': '<path d="M12 3a9 9 0 1 0 9 9h-9V3z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15V3.5z"/>',
+    calculadora: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/>',
+    lsm: '<path d="M4 18a8 8 0 1 1 16 0"/><path d="M12 18l4-5"/>',
+    artigos: '<path d="M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4"/>',
+    'comparador-gsc': '<path d="M7 4v16M17 4v16M3 8l4-4 4 4M13 16l4 4 4-4"/>',
+    reputacao: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.8 6.7 19.4l1.2-6L3.4 9.3l6-.7L12 3z"/>',
+    gtd: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  };
   const labCard = (x) => {
     const url = x.url || (review ? x.reviewUrl : null);
     const st = x.status;
     const cta = x.url && st === 'open' ? t(LB.ctaOpen) : x.url && st === 'demo' ? t(LB.ctaDemo) : null;
     return `
-      <li class="tool${x.public === false ? ' rv-item' : ''}">
+      <li class="tool glow-card${x.featured ? ' tool-featured' : ''}${x.public === false ? ' rv-item' : ''}">
+        <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${LAB_ICONS[x.id] || ''}</g></svg></span>
         <div class="tool-top">
           <span class="tag tag-${st}">${esc(t(LB.status[st]))}</span>
           ${x.ai ? `<span class="tag tag-ai">${ICON.ai} ${esc(t(LB.usesAi))}</span>` : ''}
@@ -226,15 +288,15 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
       </li>`;
   };
   const work = `
-<section class="section" id="como-trabalhamos" aria-labelledby="work-title">
+<section class="section on-dark section-work" id="como-trabalhamos" aria-labelledby="work-title">
   <div class="wrap">
     <header class="section-head">
       <p class="eyebrow">${esc(t(W.eyebrow))}</p>
       <h2 id="work-title">${esc(t(W.title))}</h2>
       <p class="lead">${esc(t(W.lead))}</p>
     </header>
-    <ol class="practices">
-      ${W.items.map((w) => `<li><h3>${esc(t(w.title))}</h3><p>${esc(t(w.text))}</p></li>`).join('')}
+    <ol class="practices timeline">
+      ${W.items.map((w, i) => `<li><span class="tl-dot" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span><h3>${esc(t(w.title))}</h3><p>${esc(t(w.text))}</p></li>`).join('')}
     </ol>
   </div>
 </section>
@@ -263,7 +325,7 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
     const p = PEOPLE[key];
     const c = P[key];
     return `
-      <article class="person" id="${key}" aria-labelledby="${key}-name">
+      <article class="person glow-card" id="${key}" aria-labelledby="${key}-name">
         <img class="person-photo" src="${BP}${p.photo}" alt="${esc(p.name)}" width="160" height="160" loading="lazy">
         <div class="person-body">
           <h3 id="${key}-name">${esc(p.name)}</h3>
@@ -284,11 +346,17 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
   const people = `
 <section class="section" id="socios" aria-labelledby="socios-title">
   <div class="wrap">
-    <header class="section-head">
-      <p class="eyebrow">${esc(t(P.eyebrow))}</p>
-      <h2 id="socios-title">${esc(t(P.title))}</h2>
-      <p class="lead">${esc(t(P.lead))}</p>
-    </header>
+    <div class="socios-head">
+      <header class="section-head">
+        <p class="eyebrow">${esc(t(P.eyebrow))}</p>
+        <h2 id="socios-title">${esc(t(P.title))}</h2>
+        <p class="lead">${esc(t(P.lead))}</p>
+      </header>
+      <figure class="socios-photo">
+        <img src="${BP}/assets/img/blog/black-friday-card.jpg" alt="${esc(t(P.photoAlt))}" width="800" height="500" loading="lazy">
+        <figcaption>${esc(t(P.photoCaption))}</figcaption>
+      </figure>
+    </div>
     <div class="people">${person('eric')}${person('marcelo')}</div>
     ${review ? `
     <div class="rv-block">
@@ -312,7 +380,7 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
       <p class="lead">${esc(t(CR.lead))}</p>
     </header>
     <div class="creds">
-      <article class="cred cred-wide">
+      <article class="cred cred-wide glow-card">
         <h3>${esc(t(CR.premier.title))}</h3>
         <p>${esc(t(CR.premier.text))}</p>
         <ul class="badges">${years.map((y) => `<li><img src="${BP}/assets/img/badges/premier-${y}.jpg" alt="Google Premier Partner ${y}" width="96" height="96" loading="lazy"><span>${y}</span></li>`).join('')}</ul>
@@ -321,12 +389,12 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
           ${extLink('https://partnersdirectory.withgoogle.com/intl/pt-BR/?certs=search&certs=display&certs=video&certs=shopping&certs=apps&regions=BR&premier=true', `${esc(t(CR.premier.directory))} ${ICON.ext}`, 'link-arrow')}
         </p>
       </article>
-      <article class="cred">
+      <article class="cred glow-card">
         <h3>${esc(t(CR.ads.title))}</h3>
         <p>${esc(t(CR.ads.text))}</p>
         <ul class="badges badges-sm">${adsBadges.map(([k, n]) => `<li><button type="button" class="zoom" data-full="${BP}/assets/img/badges/ads-${k}-lg.jpg" data-caption="${esc(n)}" aria-label="${esc(t(T.ui.enlarge))}: ${esc(n)}"><img src="${BP}/assets/img/badges/ads-${k}.jpg" alt="${esc(n)} — Certified" width="72" height="72" loading="lazy"></button></li>`).join('')}</ul>
       </article>
-      <article class="cred">
+      <article class="cred glow-card">
         <h3>${esc(t(CR.linkedin.title))}</h3>
         <p>${esc(t(CR.linkedin.text))}</p>
         <ul class="cert-list">${CR.linkedin.items.map((c) => `<li>
@@ -353,7 +421,7 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
       <a class="link-arrow" href="${legacy('/blog')}">${esc(t(T.ui.allArticles))} ${ICON.arrow}</a>
     </header>
     <ul class="articles">
-      ${ARTICLES.map((a) => `<li class="article">
+      ${ARTICLES.map((a) => `<li class="article glow-card">
         ${a.image ? `<img class="article-thumb" src="${BP}${a.image}" alt="" width="800" height="500" loading="lazy">` : `<div class="article-thumb article-thumb-fallback" aria-hidden="true"><img src="${BP}/assets/img/logo-linka.svg" alt="" width="72" height="72"></div>`}
         <div class="article-body">
         <p class="article-meta"><time datetime="${a.date}">${esc(fmtDate(a.date))}</time>${lang !== 'pt' ? ` · <span lang="pt-BR">${esc(t(T.ui.ptOnly))}</span>` : ''}</p>
@@ -384,7 +452,7 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
     </article>`;
   };
   const contact = `
-<section class="section section-contact" id="contato" aria-labelledby="contato-title">
+<section class="section section-contact on-dark" id="contato" aria-labelledby="contato-title">
   <div class="wrap contact-grid">
     <div>
       <p class="eyebrow">${esc(t(CT.eyebrow))}</p>

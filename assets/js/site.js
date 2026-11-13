@@ -180,4 +180,80 @@
     document.addEventListener('click', (e) => { if (!ai.contains(e.target)) setAi(false); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { setAi(false); trigger.focus(); } });
   }
+
+  /* ---------- Diagrama "animated beam": linhas canais → núcleo → conversão ---------- */
+  const beam = $('[data-beam]');
+  if (beam) {
+    const svg = $('.beam-svg', beam);
+    const NS = 'http://www.w3.org/2000/svg';
+    const draw = () => {
+      const box = beam.getBoundingClientRect();
+      if (!box.width) return;
+      const hub = $('[data-beam-hub]', beam).getBoundingClientRect();
+      const to = $('[data-beam-to]', beam).getBoundingClientRect();
+      const rel = (x, y) => [x - box.left, y - box.top];
+      const curve = ([x1, y1], [x2, y2]) => { const dx = (x2 - x1) * 0.5; return `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`; };
+      const hubL = rel(hub.left, hub.top + hub.height / 2);
+      const hubR = rel(hub.right, hub.top + hub.height / 2);
+      const paths = $$('[data-beam-from]', beam).map((n) => { const r = n.getBoundingClientRect(); return curve(rel(r.right, r.top + r.height / 2), hubL); });
+      paths.push(curve(hubR, rel(to.left, to.top + to.height / 2)));
+      svg.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+      svg.innerHTML = `<defs><linearGradient id="beam-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="${box.width}" y2="0"><stop offset="0" stop-color="var(--grad-a)" stop-opacity="0"/><stop offset=".35" stop-color="var(--grad-a)"/><stop offset="1" stop-color="var(--grad-b)"/></linearGradient></defs>`;
+      paths.forEach((d, i) => {
+        const last = i === paths.length - 1;
+        const base = document.createElementNS(NS, 'path');
+        base.setAttribute('d', d); base.setAttribute('class', 'beam-path-base');
+        const glow = document.createElementNS(NS, 'path');
+        glow.setAttribute('d', d); glow.setAttribute('class', 'beam-path-glow'); glow.setAttribute('pathLength', '100');
+        // os canais "chegam" em momentos diferentes; a saída para a conversão vem depois
+        glow.style.animationDelay = `${last ? 1.6 : i * 0.45}s`;
+        svg.append(base, glow);
+      });
+    };
+    draw();
+    if ('ResizeObserver' in window) new ResizeObserver(draw).observe(beam);
+    else window.addEventListener('resize', draw);
+    document.fonts?.ready.then(draw);
+  }
+
+  /* ---------- Cards com borda/luz que seguem o ponteiro ---------- */
+  $$('.glow-card').forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      card.style.setProperty('--my', `${e.clientY - r.top}px`);
+    });
+  });
+
+  /* ---------- Entrada suave dos blocos ao rolar ---------- */
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const items = $$('.section-head, .bento > .service, .connect, .timeline > li, .tools > li, .socios-photo, .people > *, .creds > *, .articles > li, .contact-grid > *');
+    const vh = window.innerHeight;
+    items.forEach((el, i) => {
+      el.classList.add('rv');
+      // pequenos atrasos em sequência dentro de cada grupo
+      const idx = Array.prototype.indexOf.call(el.parentElement.children, el);
+      el.style.transitionDelay = `${Math.min(idx, 5) * 70}ms`;
+      if (el.getBoundingClientRect().top < vh) el.classList.add('is-in'); // já visível: sem piscar
+    });
+    root.classList.add('reveal-ready');
+    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    items.forEach((el) => { if (!el.classList.contains('is-in')) io.observe(el); });
+  }
+
+  /* ---------- Demonstração de modelos de atribuição ---------- */
+  $$('[data-attr]').forEach((fig) => {
+    const buttons = $$('.attr-model', fig);
+    const bars = $$('.attr-bar > span', fig);
+    const vals = $$('[data-attr-val]', fig);
+    buttons.forEach((b) => b.addEventListener('click', () => {
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      b.dataset.credit.split(',').forEach((v, i) => {
+        if (bars[i]) bars[i].style.width = `${v}%`;
+        if (vals[i]) vals[i].textContent = `${v}%`;
+      });
+    }));
+  });
 })();

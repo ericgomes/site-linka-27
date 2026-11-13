@@ -129,6 +129,7 @@ export const T = {
       en: ['Search and AI answers', 'Organic traffic', 'Paid media', 'Direct return', 'Online and offline conversion'],
       es: ['Búsqueda y respuestas con IA', 'Tráfico orgánico', 'Medios pagados', 'Retorno directo', 'Conversión online y offline'],
     },
+    hub: { pt: 'Mensuração e atribuição', en: 'Measurement & attribution', es: 'Medición y atribución' },
     lastClick: {
       pt: 'Além do último clique',
       en: 'Beyond the last click',
@@ -164,6 +165,19 @@ export const T = {
     aiLabel: { pt: 'Onde entram IA e tecnologia', en: 'Where AI and technology come in', es: 'Dónde entran la IA y la tecnología' },
     deliverLabel: { pt: 'O que entregamos', en: 'What we deliver', es: 'Qué entregamos' },
     channelsLabel: { pt: 'Plataformas', en: 'Platforms', es: 'Plataformas' },
+    // Demonstração de modelos de atribuição (bloco "Dados e Mensuração"). Percentuais = definição de cada modelo, não dados reais.
+    attr: {
+      title: { pt: 'Quem recebe o crédito da conversão?', en: 'Who gets credit for the conversion?', es: '¿Quién recibe el crédito de la conversión?' },
+      caption: { pt: 'Exemplo ilustrativo: como cada modelo de atribuição distribui o crédito entre os contatos de uma jornada.', en: 'Illustrative example: how each attribution model splits credit across the touchpoints of one journey.', es: 'Ejemplo ilustrativo: cómo cada modelo de atribución reparte el crédito entre los contactos de un recorrido.' },
+      modelsLabel: { pt: 'Modelo de atribuição', en: 'Attribution model', es: 'Modelo de atribución' },
+      models: [
+        { id: 'last', name: { pt: 'Último clique', en: 'Last click', es: 'Último clic' }, credit: [0, 0, 100] },
+        { id: 'linear', name: { pt: 'Linear', en: 'Linear', es: 'Lineal' }, credit: [33, 34, 33] },
+        { id: 'position', name: { pt: 'Por posição', en: 'Position-based', es: 'Por posición' }, credit: [40, 20, 40] },
+        { id: 'decay', name: { pt: 'Decaimento no tempo', en: 'Time decay', es: 'Decaimiento temporal' }, credit: [20, 30, 50] },
+      ],
+      defaultModel: 'position',
+    },
     connectTitle: { pt: 'Como as frentes se conectam', en: 'How the practices connect', es: 'Cómo se conectan los frentes' },
     connect: {
       pt: [
@@ -361,6 +375,8 @@ export const T = {
       es: 'Tecnología, datos y SEO por un lado; medios pagados y rendimiento por el otro. Ambos participan en las decisiones de cada cuenta.',
     },
     moreLabel: { pt: 'Trajetória', en: 'Background', es: 'Trayectoria' },
+    photoAlt: { pt: 'Eric Gomes e Marcelo Caricati no evento do Google "Black Friday no Modo IA"', en: 'Eric Gomes and Marcelo Caricati at Google’s "Black Friday no Modo IA" event', es: 'Eric Gomes y Marcelo Caricati en el evento de Google "Black Friday no Modo IA"' },
+    photoCaption: { pt: 'Eric e Marcelo no evento do Google “Black Friday no Modo IA”.', en: 'Eric and Marcelo at Google’s “Black Friday no Modo IA” event.', es: 'Eric y Marcelo en el evento de Google “Black Friday no Modo IA”.' },
     eric: {
       role: { pt: 'Sócio · SEO, Tecnologia e Dados', en: 'Partner · SEO, Technology & Data', es: 'Socio · SEO, Tecnología y Datos' },
       bio: {
