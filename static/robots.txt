@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://linka.agenciademarketingdigital.com.br/sitemap.xml
