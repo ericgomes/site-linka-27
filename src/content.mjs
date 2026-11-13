@@ -74,9 +74,10 @@ export const T = {
     enlarge: { pt: 'Ampliar', en: 'Enlarge', es: 'Ampliar' },
   },
   nav: [
-    { id: 'servicos', label: { pt: 'O que fazemos', en: 'What we do', es: 'Qué hacemos' } },
+    { id: 'servicos', label: { pt: 'O que\nfazemos', en: 'What\nwe do', es: 'Qué\nhacemos' } },
     { id: 'cases', label: { pt: 'Cases', en: 'Cases', es: 'Casos' }, needsCases: true },
-    { id: 'como-trabalhamos', label: { pt: 'Como trabalhamos', en: 'How we work', es: 'Cómo trabajamos' } },
+    // "\n" quebra a linha no menu do desktop (no menu móvel fica em uma linha)
+    { id: 'como-trabalhamos', label: { pt: 'Como\ntrabalhamos', en: 'How we\nwork', es: 'Cómo\ntrabajamos' } },
     { id: 'lab', label: { pt: 'Lab', en: 'Lab', es: 'Lab' } },
     { id: 'socios', label: { pt: 'Sócios', en: 'Partners', es: 'Socios' } },
     { id: 'credenciais', label: { pt: 'Credenciais', en: 'Credentials', es: 'Credenciales' } },
@@ -114,9 +115,9 @@ export const T = {
       es: 'El recorrido que medimos',
     },
     diagramDesc: {
-      pt: 'Diagrama ilustrativo: busca orgânica, respostas com IA, mídia paga e retorno direto participam da descoberta, da consideração e da conversão. A mensuração considera esses contatos, não apenas o último clique.',
-      en: 'Illustrative diagram: organic search, AI answers, paid media and direct return take part in discovery, consideration and conversion. Measurement considers these touchpoints, not only the last click.',
-      es: 'Diagrama ilustrativo: búsqueda orgánica, respuestas con IA, medios pagados y retorno directo participan en el descubrimiento, la consideración y la conversión. La medición considera esos contactos, no solo el último clic.',
+      pt: 'Diagrama ilustrativo: busca e respostas com IA, tráfego orgânico, mídia paga e retorno direto participam da descoberta, da consideração e da conversão. A mensuração considera esses contatos, não apenas o último clique.',
+      en: 'Illustrative diagram: search and AI answers, organic traffic, paid media and direct return take part in discovery, consideration and conversion. Measurement considers these touchpoints, not only the last click.',
+      es: 'Diagrama ilustrativo: búsqueda y respuestas con IA, tráfico orgánico, medios pagados y retorno directo participan en el descubrimiento, la consideración y la conversión. La medición considera esos contactos, no solo el último clic.',
     },
     stages: {
       pt: ['Descoberta', 'Consideração', 'Conversão'],
@@ -124,9 +125,9 @@ export const T = {
       es: ['Descubrimiento', 'Consideración', 'Conversión'],
     },
     touch: {
-      pt: ['Busca e respostas com IA', 'Mídia paga', 'Retorno direto', 'Conversão on-line e off-line'],
-      en: ['Search and AI answers', 'Paid media', 'Direct return', 'Online and offline conversion'],
-      es: ['Búsqueda y respuestas con IA', 'Medios pagados', 'Retorno directo', 'Conversión online y offline'],
+      pt: ['Busca e respostas com IA', 'Tráfego orgânico', 'Mídia paga', 'Retorno direto', 'Conversão on-line e off-line'],
+      en: ['Search and AI answers', 'Organic traffic', 'Paid media', 'Direct return', 'Online and offline conversion'],
+      es: ['Búsqueda y respuestas con IA', 'Tráfico orgánico', 'Medios pagados', 'Retorno directo', 'Conversión online y offline'],
     },
     lastClick: {
       pt: 'Além do último clique',
@@ -337,7 +338,8 @@ export const T = {
       en: 'The Lab brings together tools built by Linka for measurement, SEO, media and reporting. Some are open; others are shown in a demo.',
       es: 'El Lab reúne herramientas desarrolladas por Linka para medición, SEO, medios e informes. Algunas están abiertas; otras se presentan en una demostración.',
     },
-    showAll: { pt: 'Ver todas as ferramentas do Lab', en: 'See all Lab tools', es: 'Ver todas las herramientas del Lab' },
+    showMore: { pt: 'Ver mais ferramentas', en: 'See more tools', es: 'Ver más herramientas' },
+    showLess: { pt: 'Ver menos', en: 'See less', es: 'Ver menos' },
     status: {
       open: { pt: 'Acesso aberto', en: 'Open access', es: 'Acceso abierto' },
       demo: { pt: 'Demonstração on-line', en: 'Online demo', es: 'Demostración online' },
@@ -428,6 +430,29 @@ export const T = {
     title: { pt: 'Análises sobre busca, mídia e dados', en: 'Analysis on search, media and data', es: 'Análisis sobre búsqueda, medios y datos' },
   },
 
+  // "Analisar com IA" (rodapé): abre ChatGPT ou Claude com um pedido de análise desta página.
+  ai: {
+    button: { pt: 'Analisar com IA', en: 'Analyse with AI', es: 'Analizar con IA' },
+    copy: { pt: 'Copiar página', en: 'Copy page', es: 'Copiar página' },
+    copySub: { pt: 'Conteúdo desta página em Markdown, para colar em qualquer IA.', en: 'This page’s content in Markdown, to paste into any AI.', es: 'Contenido de esta página en Markdown, para pegar en cualquier IA.' },
+    copied: { pt: 'Copiado', en: 'Copied', es: 'Copiado' },
+    chatgpt: { pt: 'Abrir no ChatGPT', en: 'Open in ChatGPT', es: 'Abrir en ChatGPT' },
+    chatgptSub: { pt: 'Peça ao ChatGPT para analisar esta página', en: 'Ask ChatGPT to analyse this page', es: 'Pida a ChatGPT que analice esta página' },
+    claude: { pt: 'Abrir no Claude', en: 'Open in Claude', es: 'Abrir en Claude' },
+    claudeSub: { pt: 'Peça ao Claude para analisar esta página', en: 'Ask Claude to analyse this page', es: 'Pida a Claude que analice esta página' },
+    task: {
+      pt: 'Leia e analise a página abaixo. Resuma o que a Linka oferece, como trabalha e para quem, citando a página como fonte.',
+      en: 'Read and analyse the page below. Summarise what Linka offers, how it works and who it serves, citing the page as the source.',
+      es: 'Lea y analice la página indicada abajo. Resuma qué ofrece Linka, cómo trabaja y para quién, citando la página como fuente.',
+    },
+    context: {
+      pt: 'Contexto: a Linka é uma agência brasileira de marketing digital conduzida pelos sócios Eric Gomes e Marcelo Caricati, com três frentes: SEO e GEO, Mídias Pagas e Dados e Mensuração.',
+      en: 'Context: Linka is a Brazilian digital marketing agency led by partners Eric Gomes and Marcelo Caricati, with three practices: SEO & GEO, Paid Media and Data & Measurement.',
+      es: 'Contexto: Linka es una agencia brasileña de marketing digital dirigida por los socios Eric Gomes y Marcelo Caricati, con tres frentes: SEO y GEO, Medios Pagados y Datos y Medición.',
+    },
+    pageLabel: { pt: 'Página', en: 'Page', es: 'Página' },
+  },
+
   contact: {
     eyebrow: { pt: 'Contato', en: 'Contact', es: 'Contacto' },
     title: { pt: 'Converse direto com os sócios', en: 'Talk directly to the partners', es: 'Hable directamente con los socios' },
@@ -510,10 +535,10 @@ export const LAB = [
 
 // Artigos existentes (URLs preservadas). Conteúdo em português.
 export const ARTICLES = [
-  { url: '/blog/google-diz-que-geo-nao-existe', date: '2026-09-18',
+  { url: '/blog/google-diz-que-geo-nao-existe', date: '2026-09-18', image: '/assets/img/blog/geo-card.jpg',
     title: 'Google diz que GEO não existe',
     text: 'Por que, para a Pesquisa Google, otimizar para IA generativa continua sendo fazer SEO bem feito.' },
-  { url: '/blog/black-friday-2026-no-modo-ia-como-a-inteligencia-artificial-esta-mudando-a-jornada-de-compra', date: '2026-09-01',
+  { url: '/blog/black-friday-2026-no-modo-ia-como-a-inteligencia-artificial-esta-mudando-a-jornada-de-compra', date: '2026-09-01', image: '/assets/img/blog/black-friday-card.jpg',
     title: 'Black Friday 2026 no Modo IA',
     text: 'Como IA, Google Search e comércio agêntico estão mudando a jornada de compra.' },
   { url: '/blog/ia-na-busca-crescimento-google-nao-garante-mais-visitas', date: '2026-08-03',

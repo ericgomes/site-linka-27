@@ -69,19 +69,35 @@
 
   /* ---------- Destaque do item de menu da seção visível ---------- */
   const navLinks = $$('a[data-nav]');
-  const sections = navLinks.map((a) => document.getElementById(a.dataset.nav)).filter(Boolean);
-  if ('IntersectionObserver' in window && sections.length) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((en) => {
-        if (!en.isIntersecting) return;
-        navLinks.forEach((a) => {
-          if (a.dataset.nav === en.target.id) a.setAttribute('aria-current', 'true');
-          else a.removeAttribute('aria-current');
-        });
-      });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    sections.forEach((s) => io.observe(s));
-  }
+  // Seções na ordem do documento (sem repetir: "contato" aparece no link e no botão do menu).
+  const sections = [...new Set(navLinks.map((a) => a.dataset.nav))]
+    .map((id) => document.getElementById(id)).filter(Boolean)
+    .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+  const setActive = (id) => navLinks.forEach((a) => {
+    if (a.dataset.nav === id) a.setAttribute('aria-current', 'true');
+    else a.removeAttribute('aria-current');
+  });
+  const spy = () => {
+    if (!sections.length) return;
+    // No fim da página, a última seção (contato) fica ativa mesmo sendo curta.
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+      setActive(sections[sections.length - 1].id); return;
+    }
+    // Nenhum item aceso enquanto o topo (hero) está na tela.
+    const line = window.innerHeight * 0.4;
+    let current = null;
+    for (const s of sections) if (s.getBoundingClientRect().top <= line) current = s;
+    setActive(current ? current.id : null);
+  };
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { spy(); ticking = false; });
+  }, { passive: true });
+  window.addEventListener('resize', spy);
+  window.addEventListener('hashchange', () => setTimeout(spy, 50));
+  spy();
 
   /* ---------- WhatsApp flutuante ---------- */
   const waWrap = $('[data-wa]');
@@ -100,6 +116,7 @@
   if (waWrap && contact && 'IntersectionObserver' in window) {
     new IntersectionObserver(([en]) => {
       waWrap.classList.toggle('is-hidden', en.isIntersecting);
+      root.classList.toggle('wa-off', en.isIntersecting);
       if (en.isIntersecting) setWa(false);
     }, { threshold: 0.15 }).observe(contact);
   }
@@ -114,4 +131,53 @@
     lb.showModal();
   }));
   lb?.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+
+  /* ---------- Voltar ao topo (aparece depois de rolar uma tela) ---------- */
+  const toTop = $('.to-top');
+  if (toTop) {
+    const syncTop = () => toTop.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.8);
+    window.addEventListener('scroll', syncTop, { passive: true });
+    syncTop();
+    toTop.addEventListener('click', () => { requestAnimationFrame(() => $('#conteudo')?.focus({ preventScroll: true })); });
+  }
+
+  /* ---------- Analisar com IA (rodapé) ---------- */
+  const ai = $('[data-ai]');
+  if (ai) {
+    const trigger = $('.ai-trigger', ai);
+    const menu = $('#ai-menu', ai);
+    const setAi = (open) => {
+      menu.hidden = !open;
+      trigger.setAttribute('aria-expanded', String(open));
+      if (open) menu.querySelector('.ai-opt')?.focus();
+    };
+    const pageUrl = () => location.origin + location.pathname;
+    const prompt = () => `${ai.dataset.task}\n\n${ai.dataset.pageLabel}: ${pageUrl()}\n\n${ai.dataset.context}`;
+    const markdown = () => `${($('#page-md')?.textContent || '').trim()}\n\n${ai.dataset.pageLabel}: ${pageUrl()}`;
+    const copyText = async (text) => {
+      try { await navigator.clipboard.writeText(text); return true; } catch (e) {
+        const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (err) {} ta.remove(); return ok;
+      }
+    };
+    const URLS = { chatgpt: 'https://chatgpt.com/?q=', claude: 'https://claude.ai/new?q=' };
+    trigger.addEventListener('click', () => setAi(menu.hidden));
+    menu.addEventListener('click', async (e) => {
+      const el = e.target.closest('[data-ai-act]');
+      if (!el) return;
+      const act = el.dataset.aiAct;
+      if (act === 'copy') {
+        const ok = await copyText(markdown());
+        const title = $('.ai-opt-title', el);
+        if (ok) {
+          title.textContent = title.dataset.copiedLabel; el.classList.add('is-done');
+          setTimeout(() => { title.textContent = title.dataset.copyLabel; el.classList.remove('is-done'); }, 1800);
+        }
+        return;
+      }
+      if (URLS[act]) { el.href = URLS[act] + encodeURIComponent(prompt()); setTimeout(() => setAi(false), 0); }
+    });
+    document.addEventListener('click', (e) => { if (!ai.contains(e.target)) setAi(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { setAi(false); trigger.focus(); } });
+  }
 })();

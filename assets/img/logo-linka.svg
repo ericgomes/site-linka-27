@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 225 225" role="img" aria-label="Linka">
+  <circle cx="112.5" cy="112.5" r="112.5" fill="#A700FE"/>
+  <g fill="#fff">
+    <path d="M59 68H127Q149 68 149 90V158H126V89H59Z"/>
+    <path d="M38 158H71L145 84H112Z"/>
+  </g>
+  <g stroke="#fff" stroke-width="4.8" stroke-linecap="butt" transform="translate(176 145)">
+    <path d="M0-12V12"/>
+    <path d="M0-12V12" transform="rotate(60)"/>
+    <path d="M0-12V12" transform="rotate(-60)"/>
+  </g>
+</svg>

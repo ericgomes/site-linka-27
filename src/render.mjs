@@ -13,6 +13,10 @@ const ICON = {
   moon: '<svg class="i-moon" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>',
   menu: '<svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>',
   globe: '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></g></svg>',
+  chatgpt: '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.911 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.182a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .511 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.989 5.989 0 0 0 3.998-2.9 6.056 6.056 0 0 0-.748-7.073zm-9.022 12.608a4.476 4.476 0 0 1-2.876-1.041l.142-.08 4.778-2.758a.795.795 0 0 0 .393-.681v-6.737l2.02 1.169a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.495 4.494zm-9.661-4.125a4.471 4.471 0 0 1-.535-3.014l.142.085 4.783 2.758a.771.771 0 0 0 .781 0l5.843-3.369v2.332a.08.08 0 0 1-.033.061L9.74 19.95a4.499 4.499 0 0 1-6.141-1.646zM2.341 7.896a4.485 4.485 0 0 1 2.365-1.973V11.6a.766.766 0 0 0 .388.676l5.814 3.354-2.02 1.169a.076.076 0 0 1-.071 0l-4.83-2.787A4.504 4.504 0 0 1 2.341 7.872zm16.596 3.856L13.104 8.364 15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.104v-5.677a.79.79 0 0 0-.407-.667zm2.011-3.023l-.142-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.499 4.499 0 0 1 6.68 4.66zM8.306 12.863l-2.02-1.164a.08.08 0 0 1-.038-.057V6.074a4.499 4.499 0 0 1 7.376-3.454l-.142.081L8.704 5.459a.795.795 0 0 0-.393.681zm1.098-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5Z"></svg>',
+  claude: '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="m4.714 15.956 4.717-2.647.079-.231-.079-.128h-.231l-.789-.049-2.696-.073-2.337-.097-2.265-.121-.571-.121-.534-.704.055-.352.48-.322.686.061 1.518.103 2.277.158 1.651.097 2.447.255h.389l.055-.158-.134-.097-.103-.097L6.973 9.836l-2.55-1.688-1.336-.971-.723-.492-.364-.461-.158-1.008.656-.723.88.061.225.061.892.686 1.906 1.475 2.489 1.834.364.303.146-.103.018-.073-.164-.273-1.354-2.447-1.445-2.489-.643-1.032-.17-.619c-.061-.255-.103-.467-.103-.729L6.287.134 6.7 0l.996.134.419.364.619 1.415 1.002 2.228 1.554 3.03.455.898.243.832.091.255h.158v-.146l.128-1.706.237-2.095.231-2.696.079-.759.376-.911.747-.492.583.279.48.686-.067.443-.285 1.852-.559 2.902-.364 1.943h.212l.243-.243.984-1.305 1.651-2.064.729-.82.85-.905.546-.431h1.032l.759 1.129-.34 1.166-1.062 1.348-.88 1.141-1.263 1.7-.789 1.36.073.109.188-.018 2.853-.607 1.542-.279 1.84-.316.832.389.091.395-.328.807-1.967.486-2.307.461-3.436.814-.043.03.049.061 1.548.146.662.036h1.621l3.018.225.789.522.474.638-.079.486-1.214.619-1.639-.389-3.825-.911-1.311-.328h-.182v.109l1.093 1.069 2.003 1.809 2.507 2.331.128.577-.322.455-.34-.049-2.204-1.657-.85-.747-1.925-1.621h-.128v.17l.443.65 2.344 3.521.121 1.081-.17.352-.607.212-.668-.121-1.372-1.925L14.38 17.959l-1.141-1.943-.14.079-.674 7.255-.316.37-.729.279-.607-.461-.322-.747.322-1.475.389-1.925.316-1.53.285-1.9.17-.631-.012-.043-.14.018-1.433 1.967-2.18 2.945-1.724 1.846-.413.164-.716-.37.067-.662.401-.589 2.386-3.036 1.439-1.882.929-1.087-.006-.158h-.055l-6.338 4.116-1.129.146-.486-.455.061-.747.231-.243 1.906-1.311Z"></svg>',
+  copy: '<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></g></svg>',
+  chevron: '<svg aria-hidden="true" viewBox="0 0 24 24" width="12" height="12"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M6 15l6-6 6 6"/></svg>',
   ai: '<svg aria-hidden="true" viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2Zm6 12 .9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9L18 14Z"/></svg>',
 };
 
@@ -46,14 +50,14 @@ export function render(lang, { review = false, basePath = '', preview = false } 
 ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas internas, conteúdos pendentes e estruturas sem dados. Não publicar. A versão pública está em <a href="${BP}${L.path}">${BP}${L.path}</a>.</div>` : ''}
 <header class="site-header" id="topo">
   <div class="wrap header-inner">
-    <a class="logo" href="${home}#topo" aria-label="Linka — ${esc(t(T.ui.backToTop))}">
-      <span class="wordmark">l<span class="l-i">i</span>nk<span class="l-a">a</span></span>
+    <a class="logo" href="#inicio" aria-label="Linka — ${esc(t(T.ui.backToTop))}">
+      <img class="logo-mark" src="${BP}/assets/img/logo-linka.svg" alt="" width="44" height="44">
     </a>
     <nav class="main-nav" id="main-nav" aria-label="${esc(t(T.ui.menu))}">
       <ul>
-        ${navItems.map((n) => `<li><a href="#${n.id}" data-nav="${n.id}">${esc(t(n.label))}</a></li>`).join('')}
+        ${navItems.map((n) => `<li><a href="#${n.id}" data-nav="${n.id}">${esc(t(n.label)).replace(/\n/g, ' <br class="nav-br">')}</a></li>`).join('')}
       </ul>
-      <a class="btn btn-sm btn-primary nav-cta" href="#contato">${esc(t(T.navCta))}</a>
+      <a class="btn btn-sm btn-primary nav-cta" href="#contato" data-nav="contato">${esc(t(T.navCta))}</a>
     </nav>
     <div class="header-tools">
       <div class="lang-switch" role="group" aria-label="${esc(t(T.ui.language))}">${ICON.globe}${langSwitch}</div>
@@ -77,20 +81,21 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
     ${stages.map((s, i) => `<li><span class="stage-n">${i + 1}</span>${esc(s)}</li>`).join('')}
   </ol>
   <div class="journey-tracks" aria-hidden="true">
-    <div class="track t1"><span>${esc(touch[0])}</span></div>
-    <div class="track t2"><span>${esc(touch[1])}</span></div>
-    <div class="track t3"><span>${esc(touch[2])}</span></div>
-    <div class="track t4"><span>${esc(touch[3])}</span></div>
+    ${touch.map((label, i) => {
+      // início e fim de cada contato ao longo da jornada (%), ilustrativo
+      const [s, e] = [[0, 58], [10, 70], [22, 82], [46, 90], [70, 100]][i] || [0, 100];
+      return `<div class="track t${i + 1}${e === 100 ? ' t-end' : ''}" style="--s:${s}%;--e:${e}%"><span>${esc(label)}</span></div>`;
+    }).join('\n    ')}
   </div>
   <p class="journey-foot" aria-hidden="true"><span class="dot"></span>${esc(t(H.lastClick))}</p>
 </figure>`;
 
   const hero = `
-<section class="hero" aria-labelledby="hero-title">
+<section class="hero" id="inicio" aria-labelledby="hero-title">
   <div class="wrap hero-grid">
     <div class="hero-copy">
       <p class="eyebrow">${esc(t(H.eyebrow))}</p>
-      <h1 id="hero-title">${esc(t(H.title))}</h1>
+      <h1 id="hero-title">${t(H.title).split(/(?<=\.)\s+/).map((f) => `<span class="h1-line">${esc(f)}</span>`).join(" ")}</h1>
       <p class="lead">${esc(t(H.lead))}</p>
       <p class="hero-support">${esc(t(H.support))}</p>
       <div class="cta-row">
@@ -138,16 +143,13 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
           <p class="mini-label">${ICON.ai} ${esc(t(S.aiLabel))}</p>
           <p>${esc(t(it.ai))}</p>
         </div>
-        <details class="more" data-deeplink="${it.id}">
-          <summary>${esc(t(T.ui.details))}</summary>
-          <div class="more-body">
+        <div class="service-details">
             <p class="mini-label">${esc(t(S.deliverLabel))}</p>
             <ul class="check-list">${t(it.deliver).map((d) => `<li>${esc(d)}</li>`).join('')}</ul>
             ${it.channels ? `<p class="mini-label">${esc(t(S.channelsLabel))}</p>
             <ul class="chips">${it.channels.filter(visible).map((c) => `<li${c.review ? ' class="rv-item"' : ''}>${esc(c.name)}</li>`).join('')}</ul>${note(it.channelsNote)}` : ''}
             ${it.disclaimer ? `<p class="fine">${esc(t(it.disclaimer))}</p>` : ''}
-          </div>
-        </details>
+        </div>
       </article>`).join('')}
     </div>
     <div class="connect">
@@ -244,8 +246,11 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
       <p class="lead">${esc(t(LB.lead))}</p>
     </header>
     <ul class="tools">${labItems.filter((x) => x.featured).map(labCard).join('')}</ul>
-    <details class="more more-wide" data-deeplink="lab-completo" id="lab-completo">
-      <summary>${esc(t(LB.showAll))}</summary>
+    <details class="lab-more" id="lab-completo" data-deeplink="lab-completo">
+      <summary class="btn btn-ghost lab-more-btn">
+        <span class="when-closed">${esc(t(LB.showMore))} (${labItems.filter((x) => !x.featured).length})</span>
+        <span class="when-open">${esc(t(LB.showLess))}</span>
+      </summary>
       <ul class="tools">${labItems.filter((x) => !x.featured).map(labCard).join('')}</ul>
     </details>
     ${note('Validação funcional de cada ferramenta ainda pendente. Somente Calculadora, Plano de Mídia e Cidades (?demo=1) recebem link direto na versão pública. Nenhuma ferramenta é descrita como "agente".')}
@@ -269,10 +274,10 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
             <li>${extLink(p.schedule, `${ICON.cal} ${esc(t(T.ui.schedule))}`, 'btn btn-sm btn-ghost')}</li>
             <li>${extLink(p.linkedin, `${ICON.in} LinkedIn`, 'btn btn-sm btn-ghost')}</li>
           </ul>
-          <details class="more" data-deeplink="${key}-trajetoria" id="${key}-trajetoria">
-            <summary>${esc(t(P.moreLabel))}</summary>
-            <div class="more-body"><ul class="plain-list">${t(c.more).map((m) => `<li>${esc(m)}</li>`).join('')}</ul></div>
-          </details>
+          <div class="person-more" id="${key}-trajetoria">
+            <p class="mini-label">${esc(t(P.moreLabel))}</p>
+            <ul class="plain-list">${t(c.more).map((m) => `<li>${esc(m)}</li>`).join('')}</ul>
+          </div>
         </div>
       </article>`;
   };
@@ -349,9 +354,12 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
     </header>
     <ul class="articles">
       ${ARTICLES.map((a) => `<li class="article">
+        ${a.image ? `<img class="article-thumb" src="${BP}${a.image}" alt="" width="800" height="500" loading="lazy">` : `<div class="article-thumb article-thumb-fallback" aria-hidden="true"><img src="${BP}/assets/img/logo-linka.svg" alt="" width="72" height="72"></div>`}
+        <div class="article-body">
         <p class="article-meta"><time datetime="${a.date}">${esc(fmtDate(a.date))}</time>${lang !== 'pt' ? ` · <span lang="pt-BR">${esc(t(T.ui.ptOnly))}</span>` : ''}</p>
         <h3><a href="${legacy(a.url)}" lang="pt-BR">${esc(a.title)}</a></h3>
         <p lang="pt-BR">${esc(a.text)}</p>
+        </div>
       </li>`).join('')}
     </ul>
     ${note(`Nome da área editorial não decidido: "${SITE.editorialName.pt}" está em src/content.mjs → SITE.editorialName ("Conteúdos" é a alternativa). Os artigos e a URL /blog foram preservados sem mudança de comportamento.`)}
@@ -368,8 +376,9 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
         <h3>${esc(p.name)}</h3>
         <p class="person-role">${esc(t(role))}</p>
         <ul class="person-links">
-          <li>${extLink(p.whatsapp, `${ICON.wa} WhatsApp`, 'btn btn-sm btn-wa')}</li>
+          <li>${extLink(p.whatsapp, `${ICON.wa} WhatsApp`, 'btn btn-sm btn-ghost btn-wa-soft')}</li>
           <li>${extLink(p.schedule, `${ICON.cal} ${esc(t(T.ui.schedule))}`, 'btn btn-sm btn-ghost')}</li>
+          <li>${extLink(p.linkedin, `${ICON.in} LinkedIn`, 'btn btn-sm btn-ghost btn-in-soft')}</li>
         </ul>
       </div>
     </article>`;
@@ -389,24 +398,65 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
     </div>
     <div class="faq">
       <h3>${esc(t(CT.faqTitle))}</h3>
-      ${CT.faq.map((f, i) => `<details class="faq-item" id="faq-${i + 1}" data-deeplink="faq-${i + 1}"><summary>${esc(t(f.q))}</summary><p>${esc(t(f.a))}</p></details>`).join('')}
+      <dl class="faq-list">${CT.faq.map((f, i) => `<div class="faq-item" id="faq-${i + 1}"><dt>${esc(t(f.q))}</dt><dd>${esc(t(f.a))}</dd></div>`).join('')}</dl>
     </div>
   </div>
   ${review ? `<div class="wrap">${note('Versões EN/ES avisam que o atendimento comercial é em português, pois o briefing não confirma atendimento nos três idiomas. Confirmar. Nenhum preço, prazo ou condição foi incluído.')}</div>` : ''}
 </section>`;
 
+  // ---------- "Analisar com IA": versão em Markdown da página, gerada do mesmo conteúdo ----------
+  const pageMarkdown = () => {
+    const li = (arr) => arr.map((x) => `- ${x}`).join('\n');
+    const pub = LAB.filter((x) => x.public !== false);
+    return [
+      `# Linka — ${t(H.title)}`,
+      t(H.lead), t(H.support),
+      `## ${t(S.title)}`, t(S.lead),
+      ...S.items.map((it) => [
+        `### ${t(it.title)}`, t(it.summary),
+        `${t(S.aiLabel)}: ${t(it.ai)}`,
+        `${t(S.deliverLabel)}:\n${li(t(it.deliver))}`,
+        it.channels ? `${t(S.channelsLabel)}: ${it.channels.filter((c) => !c.review).map((c) => c.name).join(', ')}` : '',
+        it.disclaimer ? t(it.disclaimer) : '',
+      ].filter(Boolean).join('\n\n')),
+      `## ${t(W.title)}`, t(W.lead), li(W.items.map((w) => `${t(w.title)}: ${t(w.text)}`)),
+      `## ${t(LB.eyebrow)} — ${t(LB.title)}`, t(LB.lead),
+      li(pub.map((x) => `${t(x.name)} (${t(LB.status[x.status])}${x.ai ? ', ' + t(LB.usesAi) : ''}): ${t(x.text)}`)),
+      `## ${t(P.title)}`,
+      ...['eric', 'marcelo'].map((k) => `### ${PEOPLE[k].name} — ${t(P[k].role)}\n\n${t(P[k].bio)}\n\n${li(t(P[k].more))}\n\nLinkedIn: ${PEOPLE[k].linkedin}`),
+      `## ${t(CR.title)}`, t(CR.premier.text), `${t(CR.ads.title)}: Search, Display, Video, Shopping, Apps (${t(CR.ads.text)})`,
+      `${t(CR.linkedin.title)}:\n${li(CR.linkedin.items.map((c) => `${t(c.name)} — ${c.verify}`))}`,
+      `## ${t(CT.title)}`, t(CT.lead),
+      li(['eric', 'marcelo'].map((k) => `${PEOPLE[k].name}: WhatsApp ${PEOPLE[k].whatsapp} · ${t(T.ui.schedule)} ${PEOPLE[k].schedule}`)),
+      `## ${t(CT.faqTitle)}`, ...CT.faq.map((f) => `**${t(f.q)}** ${t(f.a)}`),
+    ].filter(Boolean).join('\n\n');
+  };
+  const AI = T.ai;
+  const aiMenu = `
+    <div class="ai-share" data-ai data-task="${esc(t(AI.task))}" data-context="${esc(t(AI.context))}" data-page-label="${esc(t(AI.pageLabel))}">
+      <div class="ai-menu" id="ai-menu" hidden>
+        <button type="button" class="ai-opt" data-ai-act="copy">${ICON.copy}<span><span class="ai-opt-title" data-copy-label="${esc(t(AI.copy))}" data-copied-label="${esc(t(AI.copied))}">${esc(t(AI.copy))}</span><span class="ai-opt-sub">${esc(t(AI.copySub))}</span></span></button>
+        <a class="ai-opt" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" data-ai-act="chatgpt">${ICON.chatgpt}<span><span class="ai-opt-title">${esc(t(AI.chatgpt))}</span><span class="ai-opt-sub">${esc(t(AI.chatgptSub))}</span></span>${ICON.ext}<span class="sr-only"> ${nt}</span></a>
+        <a class="ai-opt" href="https://claude.ai/new" target="_blank" rel="noopener noreferrer" data-ai-act="claude">${ICON.claude}<span><span class="ai-opt-title">${esc(t(AI.claude))}</span><span class="ai-opt-sub">${esc(t(AI.claudeSub))}</span></span>${ICON.ext}<span class="sr-only"> ${nt}</span></a>
+      </div>
+      <button type="button" class="ai-trigger" aria-expanded="false" aria-controls="ai-menu">${ICON.ai} ${esc(t(AI.button))} ${ICON.chevron}</button>
+      <script type="text/plain" id="page-md">${pageMarkdown().replace(/<\//g, '<\\/')}</script>
+    </div>`;
+
   // ---------- footer + floating WhatsApp + lightbox ----------
   const footer = `
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <p><span class="wordmark wordmark-sm">l<span class="l-i">i</span>nk<span class="l-a">a</span></span></p>
+    <p class="footer-logo"><img class="logo-mark" src="${BP}/assets/img/logo-linka.svg" alt="Linka" width="36" height="36"></p>
     <p>© ${new Date().getFullYear()} Linka · Eric Gomes &amp; Marcelo Caricati</p>
+    ${aiMenu}
     <ul class="footer-links">
+      ${['eric', 'marcelo'].map((k) => `<li>${extLink(PEOPLE[k].linkedin, `LinkedIn ${esc(PEOPLE[k].name.split(' ')[0])}`, '')}</li>`).join('')}
       <li><a href="${legacy('/privacidade')}">${esc(t(T.ui.privacy))}</a></li>
-      <li><a href="${home}#topo">${esc(t(T.ui.backToTop))}</a></li>
     </ul>
   </div>
 </footer>
+<a class="to-top" href="#inicio" aria-label="${esc(t(T.ui.backToTop))}" title="${esc(t(T.ui.backToTop))}"><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 19V5M6 11l6-6 6 6"/></svg></a>
 <div class="wa-float" data-wa>
   <div class="wa-menu" id="wa-menu" hidden>
     <p class="wa-menu-title">${esc(t(T.ui.whatsappWith))}</p>
@@ -448,11 +498,11 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
   <meta property="og:url" content="${canonical}">
   <meta property="og:image" content="${SITE.origin}/og-image.jpg">
   <meta property="og:locale" content="${L.og}">
-  <meta name="theme-color" content="#7C3AED">
+  <meta name="theme-color" content="#A700FE">
   <link rel="icon" href="${BP}/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..700&family=Manrope:wght@500..800&display=swap">
   <link rel="stylesheet" href="${BP}/assets/css/site.css">
   <script>try{var s=localStorage.getItem('linka-theme');var d=s?s==='dark':matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.dataset.theme=d?'dark':'light'}catch(e){}</script>
   <script type="application/ld+json">${JSON.stringify(ld)}</script>
