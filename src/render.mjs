@@ -443,12 +443,12 @@ ${review ? `<div class="rv-banner" role="note">Versão de revisão: inclui notas
       <div>
         <h3>${esc(p.name)}</h3>
         <p class="person-role">${esc(t(role))}</p>
-        <ul class="person-links">
-          <li>${extLink(p.whatsapp, `${ICON.wa} WhatsApp`, 'btn btn-sm btn-ghost btn-wa-soft')}</li>
-          <li>${extLink(p.schedule, `${ICON.cal} ${esc(t(T.ui.schedule))}`, 'btn btn-sm btn-ghost')}</li>
-          <li>${extLink(p.linkedin, `${ICON.in} LinkedIn`, 'btn btn-sm btn-ghost btn-in-soft')}</li>
-        </ul>
       </div>
+      <ul class="person-links contact-links">
+        <li>${extLink(p.whatsapp, `${ICON.wa} WhatsApp`, 'btn btn-sm btn-ghost btn-wa-soft')}</li>
+        <li>${extLink(p.schedule, `${ICON.cal} ${esc(t(T.ui.schedule))}`, 'btn btn-sm btn-ghost')}</li>
+        <li>${extLink(p.linkedin, `${ICON.in} LinkedIn`, 'btn btn-sm btn-ghost btn-in-soft')}</li>
+      </ul>
     </article>`;
   };
   const contact = `

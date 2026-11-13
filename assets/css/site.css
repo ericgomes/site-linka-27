@@ -695,3 +695,21 @@ main:focus { outline: none; }
 @media (prefers-reduced-motion: reduce) { .reveal-ready .rv { opacity: 1; transform: none; transition: none; } }
 .tool .tag { border-radius: 8px; line-height: 1.3; padding: 4px 9px; }
 .tool-top { align-items: flex-start; }
+
+/* Botões de contato: uma linha quando couber (linha inteira do card, abaixo da foto e do nome) */
+.contact-card { align-items: center; row-gap: 14px; }
+.contact-card .contact-links { grid-column: 1 / -1; margin: 0; }
+.person-links { gap: 6px; }
+.person-links .btn-sm { min-height: 38px; padding: 7px 13px; gap: 6px; white-space: nowrap; }
+
+/* Cards dos sócios: foto + nome no topo; bio, botões e trajetória na largura toda */
+.person, .person:is(*) { grid-template-columns: 96px minmax(0, 1fr); column-gap: 18px; row-gap: 4px; align-items: center; }
+.person .person-body { display: contents; }
+.person .person-body > * { position: relative; z-index: 1; }
+.person .person-photo { grid-row: 1 / span 2; width: 96px; height: 96px; }
+.person h3 { grid-column: 2; align-self: end; margin: 0; }
+.person .person-role { grid-column: 2; align-self: start; margin: 0; }
+.person .person-body > p:not(.person-role), .person .person-links, .person .person-more { grid-column: 1 / -1; }
+.person .person-body > p:not(.person-role) { margin: 14px 0 4px; }
+.person .person-links { margin: 8px 0 12px; }
+@media (max-width: 559px) { .person, .person:is(*) { grid-template-columns: 72px minmax(0, 1fr); } .person .person-photo { width: 72px; height: 72px; } }
